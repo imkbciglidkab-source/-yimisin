@@ -3,18 +3,52 @@
 <html>
 <head>
     <title>Nasıl Hissediyorsun?</title>
+
+    <style>
+        body {
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 50px;
+        }
+
+        button {
+            font-size: 30px;
+            margin: 10px;
+        }
+
+        #sonuc {
+            font-size: 75px;
+            margin-top: 30px;
+        }
+    </style>
 </head>
 
-<body style="text-align: center;">
+<body>
 
-    <h1 style="font-size: 50px;">Bu Gün Kendini Nasıl Hissediyorsun?</h1>
+    <h1>Bu Gün Kendini Nasıl Hissediyorsun?</h1>
 
-    <button style="font-size: 30px;">İyiyim</button>
+    <button onclick="goster('🎆')">İyiyim</button>
 
-    <button style="font-size: 30px;">İdare Eder</button>
+    <button onclick="goster('😐')">İdare Eder</button>
 
-    <button style="font-size: 30px;">Kötüyüm</button>
+    <button onclick="goster('😭')">Kötüyüm</button>
+
+    <div id="sonuc"></div>
+
+    <script>
+        function goster(emoji) {
+            document.getElementById("sonuc").textContent = emoji;
+
+            setTimeout(function() {
+                document.getElementById("sonuc").textContent = "";
+            }, 5000);
+        }
+    </script>
 
 </body>
 </html>
+```
+
 ```
