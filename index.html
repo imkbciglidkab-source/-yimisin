@@ -1,51 +1,128 @@
 <!DOCTYPE html>
-<html>
+<html lang="tr">
 <head>
-    <title>Nasıl Hissediyorsun?</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anne 😭</title>
 
     <style>
         body {
-            text-align: center;
-            margin-top: 250px;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            overflow: hidden;
+        }
+
+        .kutu {
+            text-align: center;
         }
 
         h1 {
-            font-size: 50px;
-            margin-bottom: 30px;
+            font-size: 42px;
+            margin-bottom: 35px;
         }
 
         button {
-            font-size: 25px;
+            font-size: 22px;
+            padding: 12px 22px;
             margin: 10px;
-            padding: 10px 20px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+
+        #hayir {
+            background: #ff5c5c;
+            color: white;
+        }
+
+        #gitme {
+            background: #4caf50;
+            color: white;
+        }
+
+        #emin {
+            background: #ff9800;
+            color: white;
+            position: absolute;
         }
 
         #sonuc {
+            display: none;
+        }
+
+        #emoji {
             font-size: 75px;
-            margin-top: 30px;
+        }
+
+        #mesaj {
+            font-size: 32px;
+            font-weight: bold;
         }
     </style>
 </head>
 
 <body>
 
-    <h1>Bu Gün Kendini Nasıl Hissediyorsun?</h1>
+    <div class="kutu" id="ana">
+        <h1>Anne Bugün Okula Gitmesem Olur mu?</h1>
 
-    <button onclick="goster('🎆')">İyiyim</button>
-    <button onclick="goster('😐')">İdare Eder</button>
-    <button onclick="goster('😭')">Kötüyüm</button>
+        <button id="hayir">Hayır, Gideceksin</button>
+        <button id="gitme">Tabii ki Gitmesen Olur</button>
+    </div>
 
-    <div id="sonuc"></div>
+    <div class="kutu" id="eminlik">
+        <h1>Emin misin?</h1>
+        <button id="emin">Eminim 😎</button>
+    </div>
+
+    <div class="kutu" id="sonuc">
+        <div id="emoji">😂</div>
+        <div id="mesaj">
+            Teşekkür ederim, kabul edeceğini biliyordum!
+        </div>
+    </div>
 
     <script>
-        function goster(emoji) {
-            document.getElementById("sonuc").textContent = emoji;
+        const ana = document.getElementById("ana");
+        const eminlik = document.getElementById("eminlik");
+        const sonuc = document.getElementById("sonuc");
 
-            setTimeout(function() {
-                document.getElementById("sonuc").textContent = "";
-            }, 5000);
-        }
+        const hayir = document.getElementById("hayir");
+        const gitme = document.getElementById("gitme");
+        const emin = document.getElementById("emin");
+
+        eminlik.style.display = "none";
+
+        // "Hayır, Gideceksin" butonuna basınca
+        hayir.addEventListener("click", function () {
+            ana.style.display = "none";
+            eminlik.style.display = "block";
+        });
+
+        // "Eminim" butonu kaçıyor 😂
+        emin.addEventListener("mouseenter", function () {
+            const maxX = window.innerWidth - emin.offsetWidth - 20;
+            const maxY = window.innerHeight - emin.offsetHeight - 20;
+
+            const x = Math.random() * maxX;
+            const y = Math.random() * maxY;
+
+            emin.style.left = x + "px";
+            emin.style.top = y + "px";
+        });
+
+        // "Tabii ki Gitmesen Olur"
+        gitme.addEventListener("click", function () {
+            ana.style.display = "none";
+            eminlik.style.display = "none";
+            sonuc.style.display = "block";
+        });
     </script>
 
 </body>
