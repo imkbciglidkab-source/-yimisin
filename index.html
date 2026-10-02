@@ -1,23 +1,23 @@
+```html
 <!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anne 😭</title>
+    <title>Yemek Testi</title>
 
     <style>
         body {
             margin: 0;
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-family: Arial, sans-serif;
             background: #f5f5f5;
-            overflow: hidden;
+            font-family: Arial, sans-serif;
         }
 
-        .kutu {
+        .container {
             text-align: center;
         }
 
@@ -26,105 +26,164 @@
             margin-bottom: 35px;
         }
 
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
         button {
             font-size: 22px;
-            padding: 12px 22px;
-            margin: 10px;
+            padding: 14px 25px;
             border: none;
             border-radius: 12px;
+            background: #222;
+            color: white;
             cursor: pointer;
-            transition: 0.15s;
         }
 
-        #hayir {
-            background: #ff5c5c;
-            color: white;
+        button:hover {
+            transform: scale(1.05);
         }
 
-        #gitme {
-            background: #4caf50;
-            color: white;
-        }
-
-        #emin {
-            background: #ff9800;
-            color: white;
-            position: absolute;
-        }
-
-        #sonuc {
+        #result {
             display: none;
         }
 
-        #emoji {
-            font-size: 75px;
+        #fireworks {
+            font-size: 80px;
+            margin-bottom: 20px;
         }
 
-        #mesaj {
-            font-size: 32px;
-            font-weight: bold;
+        #backButton {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            display: none;
+            font-size: 18px;
+            padding: 12px 20px;
         }
     </style>
 </head>
 
 <body>
 
-    <div class="kutu" id="ana">
-        <h1>Anne Bugün Okula Gitmesem Olur mu?</h1>
+    <div class="container">
 
-        <button id="hayir">Hayır, Gideceksin</button>
-        <button id="gitme">Tabii ki Gitmesen Olur</button>
-    </div>
+        <div id="test">
+            <h1 id="question">Bu Gün Yemek Testi Yapıcaz</h1>
 
-    <div class="kutu" id="eminlik">
-        <h1>Emin misin?</h1>
-        <button id="emin">Eminim 😎</button>
-    </div>
-
-    <div class="kutu" id="sonuc">
-        <div id="emoji">😂</div>
-        <div id="mesaj">
-            Teşekkür ederim, kabul edeceğini biliyordum!
+            <div class="buttons" id="buttons">
+                <button onclick="choose('İskender')">İskender</button>
+                <button onclick="choose('Tavuk Döner')">Tavuk Döner</button>
+                <button onclick="choose('Cheese Burger')">Cheese Burger</button>
+            </div>
         </div>
+
+        <div id="result">
+            <div id="fireworks">🎆🎇🎆</div>
+            <h1 id="resultText"></h1>
+        </div>
+
     </div>
+
+    <button id="backButton" onclick="restart()">Başa Dön</button>
+
 
     <script>
-        const ana = document.getElementById("ana");
-        const eminlik = document.getElementById("eminlik");
-        const sonuc = document.getElementById("sonuc");
 
-        const hayir = document.getElementById("hayir");
-        const gitme = document.getElementById("gitme");
-        const emin = document.getElementById("emin");
+        let selectedFood = "";
 
-        eminlik.style.display = "none";
+        let stage = 0;
 
-        // "Hayır, Gideceksin" butonuna basınca
-        hayir.addEventListener("click", function () {
-            ana.style.display = "none";
-            eminlik.style.display = "block";
-        });
+        const stages = [
+            ["İskender", "Tavuk Döner", "Cheese Burger"],
+            ["Hamburger", "Pizza"],
+            ["Kanat", "Çıtır Tavuk"],
+            ["Ciğer", "Söğüş"],
+            ["Kokoreç", "Spagetti"],
+            ["Lahmacun", "Pide"]
+        ];
 
-        // "Eminim" butonu kaçıyor 😂
-        emin.addEventListener("mouseenter", function () {
-            const maxX = window.innerWidth - emin.offsetWidth - 20;
-            const maxY = window.innerHeight - emin.offsetHeight - 20;
+        function choose(food) {
 
-            const x = Math.random() * maxX;
-            const y = Math.random() * maxY;
+            selectedFood = food;
+            stage++;
 
-            emin.style.left = x + "px";
-            emin.style.top = y + "px";
-        });
+            // Son aşamaya gelindiyse sonucu göster
+            if (stage === stages.length) {
+                finishTest();
+                return;
+            }
 
-        // "Tabii ki Gitmesen Olur"
-        gitme.addEventListener("click", function () {
-            ana.style.display = "none";
-            eminlik.style.display = "none";
-            sonuc.style.display = "block";
-        });
+            let nextFoods = [selectedFood, ...stages[stage]];
+
+            showButtons(nextFoods);
+        }
+
+
+        function showButtons(foods) {
+
+            const buttons = document.getElementById("buttons");
+
+            buttons.innerHTML = "";
+
+            foods.forEach(food => {
+
+                const button = document.createElement("button");
+
+                button.textContent = food;
+
+                button.onclick = function() {
+                    choose(food);
+                };
+
+                buttons.appendChild(button);
+            });
+        }
+
+
+        function finishTest() {
+
+            document.getElementById("test").style.display = "none";
+
+            document.getElementById("result").style.display = "block";
+
+            document.getElementById("resultText").textContent =
+                "Tebrikler! Sona kadar " + selectedFood + " getirdin!";
+
+            setTimeout(function() {
+
+                document.getElementById("backButton").style.display = "block";
+
+            }, 5000);
+        }
+
+
+        function restart() {
+
+            selectedFood = "";
+
+            stage = 0;
+
+            document.getElementById("result").style.display = "none";
+
+            document.getElementById("test").style.display = "block";
+
+            document.getElementById("backButton").style.display = "none";
+
+            document.getElementById("buttons").innerHTML = `
+                <button onclick="choose('İskender')">İskender</button>
+                <button onclick="choose('Tavuk Döner')">Tavuk Döner</button>
+                <button onclick="choose('Cheese Burger')">Cheese Burger</button>
+            `;
+        }
+
     </script>
 
 </body>
 </html>
+```
+
 
